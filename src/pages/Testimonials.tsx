@@ -1,11 +1,10 @@
 
 import React, { useEffect } from 'react';
-import Hero from '../components/home/Hero';
-import Services from '../components/home/Services';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import TestimonialSlider from '../components/testimonials/TestimonialSlider';
 
-const Index: React.FC = () => {
+const Testimonials: React.FC = () => {
   useEffect(() => {
     // Scroll to top on page load
     window.scrollTo(0, 0);
@@ -34,11 +33,12 @@ const Index: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <Hero />
-      <Services />
+      <div className="pt-24">
+        <TestimonialSlider />
+      </div>
       <Footer />
     </div>
   );
 };
 
-export default Index;
+export default Testimonials;
