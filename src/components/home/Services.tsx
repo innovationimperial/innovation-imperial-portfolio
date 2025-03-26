@@ -91,30 +91,54 @@ const Services: React.FC = () => {
   ];
 
   return (
-    <section className="section-container">
-      <div className="text-center mb-16">
-        <span className="inline-block text-sm font-medium px-4 py-1.5 rounded-full bg-imperial-purple/10 text-imperial-deepPurple mb-4">
-          Our Expertise
-        </span>
-        <h2 className="text-3xl md:text-4xl font-bold">
-          Comprehensive <span className="text-gradient">Solutions</span>
-        </h2>
-        <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
-          Our wide range of specialized services designed to elevate your business through innovative technology solutions.
-        </p>
-      </div>
+    <section className="relative py-16 md:py-24 lg:py-32 bg-imperial-blue/95 text-white overflow-hidden">
+      {/* Purple decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white to-transparent opacity-5"></div>
+      <div className="absolute -left-24 top-1/3 w-80 h-80 rounded-full bg-imperial-purple/30 blur-[80px]"></div>
+      <div className="absolute -right-24 bottom-1/3 w-96 h-96 rounded-full bg-imperial-deepPurple/30 blur-[100px]"></div>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[130%] h-[500px] rounded-full bg-imperial-purple/10 blur-[80px] -z-10"></div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-16">
+          <span className="inline-block text-sm font-medium px-4 py-1.5 rounded-full bg-white/10 text-white mb-4">
+            Our Expertise
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold">
+            Comprehensive <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Solutions</span>
+          </h2>
+          <p className="mt-4 text-white/80 max-w-2xl mx-auto">
+            Our wide range of specialized services designed to elevate your business through innovative technology solutions.
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 stagger-animation">
-        {services.map((service, index) => (
-          <ServiceCard
-            key={service.title}
-            icon={service.icon}
-            title={service.title}
-            description={service.description}
-            delay={index * 100}
-            imageSrc={service.imageSrc}
-          />
-        ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 stagger-animation">
+          {services.map((service, index) => (
+            <ServiceCard
+              key={service.title}
+              icon={service.icon}
+              title={service.title}
+              description={service.description}
+              delay={index * 100}
+              imageSrc={service.imageSrc}
+            />
+          ))}
+        </div>
+        
+        {/* Animated dots pattern for background */}
+        <div className="absolute inset-0 pointer-events-none opacity-10">
+          {[...Array(20)].map((_, i) => (
+            <div 
+              key={i}
+              className="absolute w-2 h-2 rounded-full bg-white"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                opacity: Math.random() * 0.5 + 0.2,
+                animation: `pulse ${Math.random() * 4 + 3}s infinite alternate`,
+              }}
+            ></div>
+          ))}
+        </div>
       </div>
     </section>
   );
