@@ -1,9 +1,11 @@
 services:
   - type: web
-    name: your-app-name
+    name: innovation-imperial-portfolio
     env: node
     buildCommand: npm install && npm run build
-    startCommand: npm run preview
+    startCommand: node server.js
     envVars:
       - key: PORT
-        value: 3000 
+        value: "10000"
+      - key: NODE_ENV
+        value: production 
