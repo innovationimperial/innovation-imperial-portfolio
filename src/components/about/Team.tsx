@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import AnimatedCard from '../shared/AnimatedCard';
 import { Linkedin, Twitter, Mail } from 'lucide-react';
@@ -28,13 +27,11 @@ const TeamMemberCard: React.FC<{ member: TeamMember; index: number }> = ({ membe
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="relative aspect-square overflow-hidden">
-          <img 
-            src={member.image} 
-            alt={member.name} 
-            className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
-            loading="lazy"
-          />
+        <div className="relative aspect-square overflow-hidden bg-imperial-purple/10">
+          {/* Placeholder for when no image is provided */}
+          <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-imperial-purple">
+            {member.name.split(' ').map(n => n[0]).join('')}
+          </div>
         </div>
         
         <div className="p-6">
@@ -49,7 +46,7 @@ const TeamMemberCard: React.FC<{ member: TeamMember; index: number }> = ({ membe
             <p className="text-gray-600 text-sm mb-4">{member.bio}</p>
           </div>
           
-          <div className="flex space-x-3 mt-3">
+          <div className="flex space-x-3">
             {member.social.linkedin && (
               <a 
                 href={member.social.linkedin}
@@ -84,49 +81,38 @@ const TeamMemberCard: React.FC<{ member: TeamMember; index: number }> = ({ membe
 const Team: React.FC = () => {
   const teamMembers: TeamMember[] = [
     {
-      name: 'Alex Morgan',
+      name: 'Ntsane Foulo',
       role: 'CEO & Founder',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d',
-      bio: 'Tech visionary with 15+ years of experience in software development and business strategy.',
+      image: '',
+      bio: 'Tech visionary with extensive experience in software development and business strategy.',
       social: {
         linkedin: '#',
         twitter: '#',
-        email: 'alex@innovationimperial.com',
+        email: 'ntsane@innovationimperial.com',
       },
     },
     {
-      name: 'Sarah Chen',
+      name: 'Mcmarsh Dzwimbu',
+      role: 'COO',
+      image: '',
+      bio: 'Operations expert specializing in business process optimization and team management.',
+      social: {
+        linkedin: '#',
+        twitter: '#',
+        email: 'mcmarsh@innovationimperial.com',
+      },
+    },
+    {
+      name: 'Enock Ndoy',
       role: 'CTO',
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
+      image: '',
       bio: 'Expert in AI and machine learning with a passion for creating cutting-edge solutions.',
       social: {
         linkedin: '#',
         twitter: '#',
-        email: 'sarah@innovationimperial.com',
+        email: 'enock@innovationimperial.com',
       },
-    },
-    {
-      name: 'David Rodriguez',
-      role: 'Head of Web Development',
-      image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7',
-      bio: 'Frontend specialist who creates beautiful, responsive, and accessible web experiences.',
-      social: {
-        linkedin: '#',
-        twitter: '#',
-        email: 'david@innovationimperial.com',
-      },
-    },
-    {
-      name: 'Priya Sharma',
-      role: 'Lead Systems Architect',
-      image: 'https://images.unsplash.com/photo-1534751516642-a1af1ef26a56',
-      bio: 'Systems design expert specializing in enterprise-grade solutions and infrastructure.',
-      social: {
-        linkedin: '#',
-        twitter: '#',
-        email: 'priya@innovationimperial.com',
-      },
-    },
+    }
   ];
 
   return (
@@ -144,7 +130,7 @@ const Team: React.FC = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 stagger-animation">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-animation">
         {teamMembers.map((member, index) => (
           <TeamMemberCard key={member.name} member={member} index={index} />
         ))}

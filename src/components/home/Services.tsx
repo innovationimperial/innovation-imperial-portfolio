@@ -1,8 +1,6 @@
-
 import React from 'react';
 import AnimatedCard from '../shared/AnimatedCard';
 import { Monitor, Database, Users, ShoppingCart, BookOpen, BrainCircuit, BarChartBig } from 'lucide-react';
-import { Card, CardContent } from "@/components/ui/card";
 
 interface ServiceCardProps {
   icon: React.ReactNode;
@@ -91,22 +89,21 @@ const Services: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-16 md:py-24 lg:py-32 bg-[#4A1E4B]/95 text-white overflow-hidden">
-      {/* Deeper purple decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-[#4A1E4B] to-transparent opacity-10"></div>
-      <div className="absolute -left-24 top-1/3 w-80 h-80 rounded-full bg-[#2C0E2C]/40 blur-[80px]"></div>
-      <div className="absolute -right-24 bottom-1/3 w-96 h-96 rounded-full bg-[#2C0E2C]/40 blur-[100px]"></div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[130%] h-[500px] rounded-full bg-[#4A1E4B]/20 blur-[80px] -z-10"></div>
+    <section className="relative py-16 md:py-24 lg:py-32 bg-white text-gray-800 overflow-hidden">
+      {/* Light decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white to-transparent opacity-50"></div>
+      <div className="absolute -left-24 top-1/3 w-80 h-80 rounded-full bg-imperial-purple/5 blur-[80px]"></div>
+      <div className="absolute -right-24 bottom-1/3 w-96 h-96 rounded-full bg-imperial-purple/5 blur-[100px]"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <span className="inline-block text-sm font-medium px-4 py-1.5 rounded-full bg-white/10 text-white mb-4">
+          <span className="inline-block text-sm font-medium px-4 py-1.5 rounded-full bg-imperial-purple/10 text-imperial-deepPurple mb-4">
             Our Expertise
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold">
-            Comprehensive <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Solutions</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+            Comprehensive <span className="text-gradient">Solutions</span>
           </h2>
-          <p className="mt-4 text-white/80 max-w-2xl mx-auto">
+          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
             Our wide range of specialized services designed to elevate your business through innovative technology solutions.
           </p>
         </div>
@@ -125,11 +122,11 @@ const Services: React.FC = () => {
         </div>
         
         {/* Animated dots pattern for background */}
-        <div className="absolute inset-0 pointer-events-none opacity-10">
+        <div className="absolute inset-0 pointer-events-none opacity-5">
           {[...Array(20)].map((_, i) => (
             <div 
               key={i}
-              className="absolute w-2 h-2 rounded-full bg-white"
+              className="absolute w-2 h-2 rounded-full bg-imperial-purple"
               style={{
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,

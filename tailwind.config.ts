@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -74,6 +73,10 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        grid: {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(calc(var(--cell-size) * -1))" },
+        },
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
@@ -118,8 +121,9 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "grid": "grid 20s linear infinite",
         "fade-in": "fadeIn 0.5s ease-out forwards",
-        "fade-in-up": "fadeInUp 0.5s ease-out forwards",
+        "fade-in-up": "fade-in-up 0.5s ease-out forwards",
         "fade-in-left": "fadeInLeft 0.5s ease-out forwards",
         "fade-in-right": "fadeInRight 0.5s ease-out forwards",
         "scale-in": "scaleIn 0.4s ease-out forwards",
@@ -136,5 +140,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
