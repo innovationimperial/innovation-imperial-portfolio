@@ -1,3 +1,4 @@
+
 import React from 'react';
 import AnimatedCard from '../shared/AnimatedCard';
 import { Monitor, Database, Users, ShoppingCart, BookOpen, BrainCircuit, BarChartBig } from 'lucide-react';
@@ -90,12 +91,12 @@ const Services: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-16 md:py-24 lg:py-32 bg-[#7851A9]/95 text-white overflow-hidden">
-      {/* Purple decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-[#7851A9] to-transparent opacity-5"></div>
-      <div className="absolute -left-24 top-1/3 w-80 h-80 rounded-full bg-[#602F6B]/30 blur-[80px]"></div>
-      <div className="absolute -right-24 bottom-1/3 w-96 h-96 rounded-full bg-[#602F6B]/30 blur-[100px]"></div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[130%] h-[500px] rounded-full bg-[#7851A9]/10 blur-[80px] -z-10"></div>
+    <section className="relative py-16 md:py-24 lg:py-32 bg-[#4A1E4B]/95 text-white overflow-hidden">
+      {/* Deeper purple decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-[#4A1E4B] to-transparent opacity-10"></div>
+      <div className="absolute -left-24 top-1/3 w-80 h-80 rounded-full bg-[#2C0E2C]/40 blur-[80px]"></div>
+      <div className="absolute -right-24 bottom-1/3 w-96 h-96 rounded-full bg-[#2C0E2C]/40 blur-[100px]"></div>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[130%] h-[500px] rounded-full bg-[#4A1E4B]/20 blur-[80px] -z-10"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
