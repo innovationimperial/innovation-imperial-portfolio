@@ -14,8 +14,8 @@ const findDistDir = () => {
   console.log('Looking for dist directory at:', distPath);
   
   if (!fs.existsSync(distPath)) {
-    console.log('Creating dist directory...');
-    fs.mkdirSync(distPath, { recursive: true });
+    console.error('Error: dist directory does not exist. Please run npm run build first.');
+    process.exit(1);
   }
   
   // Log the contents of the dist directory
@@ -23,13 +23,9 @@ const findDistDir = () => {
   try {
     const contents = fs.readdirSync(distPath);
     console.log(contents);
-    
-    if (contents.includes('index.html')) {
-      const indexContent = fs.readFileSync(join(distPath, 'index.html'), 'utf-8');
-      console.log('index.html content:', indexContent);
-    }
   } catch (e) {
     console.error('Error reading dist directory:', e);
+    process.exit(1);
   }
   
   return distPath;
@@ -51,7 +47,14 @@ try {
   // Handle client-side routing by serving index.html for all routes
   app.get('*', (req, res) => {
     console.log('Serving index.html for:', req.url);
-    res.sendFile(join(distDir, 'index.html'));
+    const indexPath = join(distDir, 'index.html');
+    
+    if (!fs.existsSync(indexPath)) {
+      console.error('Error: index.html not found in dist directory');
+      return res.status(404).send('Not Found: index.html is missing from the build output');
+    }
+    
+    res.sendFile(indexPath);
   });
   
   const port = process.env.PORT || 10000;

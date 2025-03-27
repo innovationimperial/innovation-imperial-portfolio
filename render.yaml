@@ -12,39 +12,8 @@ services:
       echo "Current directory contents:"
       ls -la
       
-      echo "Checking for build output..."
-      if [ -d "dist" ]; then
-        echo "Original dist directory contents:"
-        ls -la dist/
-      fi
-      
-      # Ensure dist directory exists and is empty
-      rm -rf dist
-      mkdir -p dist
-      
-      # Move all build artifacts to dist
-      echo "Moving build artifacts..."
-      if [ -f "index.html" ]; then
-        echo "Moving index.html to dist..."
-        mv index.html dist/
-      fi
-      if [ -d "assets" ]; then
-        echo "Moving assets directory to dist..."
-        mv assets dist/
-      fi
-      
-      # Check for any other build artifacts that might be needed
-      for file in *.js *.css; do
-        if [ -f "$file" ]; then
-          echo "Moving $file to dist..."
-          mv "$file" dist/
-        fi
-      done
-      
-      echo "Final dist directory structure:"
+      echo "Checking dist directory contents:"
       ls -la dist/
-      echo "Contents of dist/index.html:"
-      cat dist/index.html
       
       if [ ! -f "dist/index.html" ]; then
         echo "Error: index.html not found in dist directory"
@@ -61,8 +30,6 @@ services:
         value: "10000"
       - key: NODE_ENV
         value: production
-      - key: VITE_CJS_TRACE
-        value: "true"
     buildFilter:
       paths:
         - src/**
