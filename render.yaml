@@ -3,29 +3,44 @@ services:
     name: innovation-imperial-portfolio
     env: node
     buildCommand: |
+      echo "Starting build process..."
       npm ci
+      echo "Running build..."
       npm run build
+      echo "Build completed, checking directories..."
       pwd
-      echo "Build completed, checking dist directory..."
+      echo "Current directory contents:"
       ls -la
-      if [ ! -d "dist" ]; then
-        echo "dist directory not found, checking build output..."
-        mkdir -p dist
-        if [ -f "index.html" ]; then
-          mv index.html dist/
-        fi
-        if [ -d "assets" ]; then
-          mv assets dist/
-        fi
+      
+      # Ensure dist directory exists and is empty
+      rm -rf dist
+      mkdir -p dist
+      
+      # If index.html exists in root, move it and assets to dist
+      if [ -f "index.html" ]; then
+        echo "Moving index.html to dist..."
+        mv index.html dist/
       fi
-      echo "Final dist directory contents:"
+      if [ -d "assets" ]; then
+        echo "Moving assets to dist..."
+        mv assets dist/
+      fi
+      
+      # Check if dist directory has required files
+      echo "Checking dist directory contents:"
       ls -la dist/
+      if [ ! -f "dist/index.html" ]; then
+        echo "Error: index.html not found in dist directory"
+        exit 1
+      fi
     startCommand: node server.js
     envVars:
       - key: PORT
         value: "10000"
       - key: NODE_ENV
         value: production
+      - key: VITE_CJS_TRACE
+        value: "true"
     buildFilter:
       paths:
         - src/**
@@ -38,4 +53,5 @@ services:
         - tsconfig.app.json
         - postcss.config.js
         - tailwind.config.ts
-        - server.js 
+        - server.js
+        - index.html 
