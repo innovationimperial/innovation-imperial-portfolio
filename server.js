@@ -10,7 +10,14 @@ const app = express();
 
 // Function to find the dist directory
 const findDistDir = () => {
-  const distPath = join(process.cwd(), 'dist');
+  // First try the default location
+  let distPath = join(process.cwd(), 'dist');
+  
+  // If not found, try the Render-specific path
+  if (!fs.existsSync(distPath) && process.env.NODE_ENV === 'production') {
+    distPath = '/opt/render/project/src/dist';
+  }
+  
   console.log('Looking for dist directory at:', distPath);
   
   if (!fs.existsSync(distPath)) {

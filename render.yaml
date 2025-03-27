@@ -15,15 +15,25 @@ services:
       echo "Checking dist directory contents:"
       ls -la dist/
       
-      if [ ! -f "dist/index.html" ]; then
+      # Ensure the dist directory is in the correct location
+      if [ ! -d "/opt/render/project/src/dist" ]; then
+        echo "Moving dist directory to the correct location..."
+        mkdir -p /opt/render/project/src/dist
+        cp -r dist/* /opt/render/project/src/dist/
+      fi
+      
+      if [ ! -f "/opt/render/project/src/dist/index.html" ]; then
         echo "Error: index.html not found in dist directory"
         exit 1
       fi
       
+      echo "Final dist directory contents at /opt/render/project/src/dist:"
+      ls -la /opt/render/project/src/dist/
+      
       echo "Checking for JavaScript files in dist:"
-      find dist -name "*.js" -type f
+      find /opt/render/project/src/dist -name "*.js" -type f
       echo "Checking for CSS files in dist:"
-      find dist -name "*.css" -type f
+      find /opt/render/project/src/dist -name "*.css" -type f
     startCommand: node server.js
     envVars:
       - key: PORT
