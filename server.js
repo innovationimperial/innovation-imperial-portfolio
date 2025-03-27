@@ -15,47 +15,76 @@ const findDistDir = () => {
     join(__dirname, 'dist'),
     join(process.cwd(), 'dist'),
     join(dirname(process.cwd()), 'dist'),
-    // Add Render-specific paths
-    '/opt/render/project/src/dist'
+    '/opt/render/project/src/dist',
+    // Add more fallback paths
+    join(__dirname, '..', 'dist'),
+    join(process.cwd(), '..', 'dist')
   ];
   
-  console.log('Searching for dist directory in the following locations:');
-  possibilities.forEach((dir, index) => {
-    console.log(`${index + 1}. ${dir}`);
-    console.log(`   Exists: ${fs.existsSync(dir)}`);
-    if (fs.existsSync(dir)) {
-      console.log(`   Contains index.html: ${fs.existsSync(join(dir, 'index.html'))}`);
-      try {
-        console.log(`   Directory contents: ${fs.readdirSync(dir).join(', ')}`);
-      } catch (e) {
-        console.log(`   Error reading directory: ${e.message}`);
-      }
-    }
-  });
+  console.log('Starting directory search...');
+  console.log('Process working directory:', process.cwd());
+  console.log('__dirname:', __dirname);
   
+  // First check if we have a dist directory
+  try {
+    const currentDirContents = fs.readdirSync(process.cwd());
+    console.log('Current directory contents:', currentDirContents);
+    
+    // Check if build created files in root instead of dist
+    if (currentDirContents.includes('index.html') && currentDirContents.includes('assets')) {
+      console.log('Found build files in root directory, moving to dist...');
+      if (!fs.existsSync('dist')) {
+        fs.mkdirSync('dist', { recursive: true });
+      }
+      fs.renameSync('index.html', join('dist', 'index.html'));
+      fs.renameSync('assets', join('dist', 'assets'));
+      return join(process.cwd(), 'dist');
+    }
+  } catch (e) {
+    console.error('Error checking current directory:', e);
+  }
+  
+  console.log('Searching for dist directory in the following locations:');
   for (const dir of possibilities) {
-    if (fs.existsSync(dir) && fs.existsSync(join(dir, 'index.html'))) {
-      console.log('Found dist directory at:', dir);
-      return dir;
+    console.log(`Checking: ${dir}`);
+    console.log(`  Exists: ${fs.existsSync(dir)}`);
+    if (fs.existsSync(dir)) {
+      try {
+        const hasIndexHtml = fs.existsSync(join(dir, 'index.html'));
+        console.log(`  Contains index.html: ${hasIndexHtml}`);
+        const contents = fs.readdirSync(dir);
+        console.log(`  Directory contents: ${contents.join(', ')}`);
+        
+        if (hasIndexHtml) {
+          console.log('Found valid dist directory at:', dir);
+          return dir;
+        }
+      } catch (e) {
+        console.log(`  Error reading directory: ${e.message}`);
+      }
     }
   }
   
   // If we get here, we couldn't find the dist directory
-  console.error('Build directory structure:');
+  console.error('Could not find dist directory. Directory structure:');
   try {
-    console.error('Current directory contents:', fs.readdirSync(process.cwd()));
+    const allFiles = fs.readdirSync(process.cwd());
+    console.error('Root directory contents:', allFiles);
+    
+    // Try to create dist directory as last resort
+    if (!fs.existsSync('dist')) {
+      fs.mkdirSync('dist', { recursive: true });
+      console.log('Created new dist directory');
+    }
   } catch (e) {
-    console.error('Error listing current directory:', e.message);
+    console.error('Error listing/creating directories:', e.message);
   }
   
-  throw new Error('Could not find dist directory with index.html');
+  throw new Error('Could not find or create valid dist directory with index.html');
 };
 
 try {
   console.log('Starting server...');
-  console.log('Current working directory:', process.cwd());
-  console.log('__dirname:', __dirname);
-  
   const distDir = findDistDir();
   
   // Serve static files from the dist directory

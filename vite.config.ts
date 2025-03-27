@@ -17,6 +17,14 @@ export default defineConfig(({ mode }) => ({
     outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+    sourcemap: false,
+    // Ensure we're writing to the correct directory
+    write: true,
   },
   plugins: [
     react(),

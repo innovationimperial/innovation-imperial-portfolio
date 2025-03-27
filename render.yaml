@@ -5,8 +5,21 @@ services:
     buildCommand: |
       npm ci
       npm run build
+      pwd
+      echo "Build completed, checking dist directory..."
       ls -la
-      ls -la dist
+      if [ ! -d "dist" ]; then
+        echo "dist directory not found, checking build output..."
+        mkdir -p dist
+        if [ -f "index.html" ]; then
+          mv index.html dist/
+        fi
+        if [ -d "assets" ]; then
+          mv assets dist/
+        fi
+      fi
+      echo "Final dist directory contents:"
+      ls -la dist/
     startCommand: node server.js
     envVars:
       - key: PORT
@@ -22,4 +35,7 @@ services:
         - vite.config.ts
         - tsconfig.json
         - tsconfig.node.json
+        - tsconfig.app.json
+        - postcss.config.js
+        - tailwind.config.ts
         - server.js 
