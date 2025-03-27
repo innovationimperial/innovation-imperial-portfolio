@@ -13,6 +13,11 @@ export default defineConfig(({ mode }) => ({
     port: Number(process.env.PORT) || 3000,
     host: true,
   },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    emptyOutDir: true,
+  },
   plugins: [
     react(),
     mode === 'development' &&
