@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
   const outDir = path.resolve(process.cwd(), 'dist');
 
   return {
+    base: './', // This ensures assets are loaded correctly
     server: {
       host: true, // This allows connections from all network interfaces
       port: Number(process.env.PORT) || 3000,
@@ -24,6 +25,9 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           manualChunks: undefined,
+          entryFileNames: 'assets/[name].[hash].js',
+          chunkFileNames: 'assets/[name].[hash].js',
+          assetFileNames: 'assets/[name].[hash][extname]'
         },
       },
       sourcemap: false,
@@ -41,6 +45,9 @@ export default defineConfig(({ mode }) => {
       alias: {
         "@": path.resolve(__dirname, "./src"),
       },
+    },
+    optimizeDeps: {
+      include: ['react', 'react-dom'],
     },
   };
 });

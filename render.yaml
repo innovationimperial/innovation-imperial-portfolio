@@ -12,27 +12,49 @@ services:
       echo "Current directory contents:"
       ls -la
       
+      echo "Checking for build output..."
+      if [ -d "dist" ]; then
+        echo "Original dist directory contents:"
+        ls -la dist/
+      fi
+      
       # Ensure dist directory exists and is empty
       rm -rf dist
       mkdir -p dist
       
-      # If index.html exists in root, move it and assets to dist
+      # Move all build artifacts to dist
+      echo "Moving build artifacts..."
       if [ -f "index.html" ]; then
         echo "Moving index.html to dist..."
         mv index.html dist/
       fi
       if [ -d "assets" ]; then
-        echo "Moving assets to dist..."
+        echo "Moving assets directory to dist..."
         mv assets dist/
       fi
       
-      # Check if dist directory has required files
-      echo "Checking dist directory contents:"
+      # Check for any other build artifacts that might be needed
+      for file in *.js *.css; do
+        if [ -f "$file" ]; then
+          echo "Moving $file to dist..."
+          mv "$file" dist/
+        fi
+      done
+      
+      echo "Final dist directory structure:"
       ls -la dist/
+      echo "Contents of dist/index.html:"
+      cat dist/index.html
+      
       if [ ! -f "dist/index.html" ]; then
         echo "Error: index.html not found in dist directory"
         exit 1
       fi
+      
+      echo "Checking for JavaScript files in dist:"
+      find dist -name "*.js" -type f
+      echo "Checking for CSS files in dist:"
+      find dist -name "*.css" -type f
     startCommand: node server.js
     envVars:
       - key: PORT
@@ -54,4 +76,5 @@ services:
         - postcss.config.js
         - tailwind.config.ts
         - server.js
-        - index.html 
+        - index.html
+        - assets/** 
