@@ -4,10 +4,19 @@ services:
     env: node
     buildCommand: |
       echo "Starting build process..."
+      echo "Node version:"
+      node --version
+      echo "NPM version:"
+      npm --version
+      
+      # Clean install dependencies
       npm ci
+      
+      # Build the application
       echo "Running build..."
       npm run build
-      echo "Build completed, checking directories..."
+      
+      echo "Build completed, checking build output..."
       pwd
       echo "Current directory contents:"
       ls -la
@@ -15,25 +24,25 @@ services:
       echo "Checking dist directory contents:"
       ls -la dist/
       
-      # Ensure the dist directory is in the correct location
-      if [ ! -d "/opt/render/project/src/dist" ]; then
-        echo "Moving dist directory to the correct location..."
-        mkdir -p /opt/render/project/src/dist
-        cp -r dist/* /opt/render/project/src/dist/
-      fi
+      # Ensure the dist directory exists in both locations
+      echo "Setting up dist directory in Render path..."
+      mkdir -p /opt/render/project/src/dist
+      cp -r dist/* /opt/render/project/src/dist/
       
-      if [ ! -f "/opt/render/project/src/dist/index.html" ]; then
-        echo "Error: index.html not found in dist directory"
+      echo "Verifying dist directory contents:"
+      echo "Local dist:"
+      ls -la dist/
+      echo "Render dist:"
+      ls -la /opt/render/project/src/dist/
+      
+      # Verify index.html exists
+      if [ ! -f "dist/index.html" ] || [ ! -f "/opt/render/project/src/dist/index.html" ]; then
+        echo "Error: index.html not found in one or both dist directories"
         exit 1
       fi
       
-      echo "Final dist directory contents at /opt/render/project/src/dist:"
+      echo "Build verification complete. Contents of final dist directory:"
       ls -la /opt/render/project/src/dist/
-      
-      echo "Checking for JavaScript files in dist:"
-      find /opt/render/project/src/dist -name "*.js" -type f
-      echo "Checking for CSS files in dist:"
-      find /opt/render/project/src/dist -name "*.css" -type f
     startCommand: node server.js
     envVars:
       - key: PORT
